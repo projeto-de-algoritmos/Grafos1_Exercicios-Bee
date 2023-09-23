@@ -6,7 +6,7 @@
 // char visitado = "n" -> nó não visitado / char visitado = "v" -> nó visitado
 struct Node {
     int valor;
-	char visitado;
+	bool visitado;
 	struct Node *proximo;
 };
 
@@ -44,11 +44,36 @@ void adicionarAresta(struct Grafo* grafo, int origem, int valor) {
     grafo->listaAdjacente[origem] = novoNo;
 }
 
+
 void DFS(struct Grafo* grafo) {
-	// for (struct Node* v; v < grafo->numVertices, v++) {
-	// 	if ()
-	// }
+	for (int i = 0; i < grafo->numVertices; i++)
+	{
+		if (!grafo->listaAdjacente[i]->visitado) {
+			DFSVisit(grafo, i);
+		}
+	}
 } 
+
+void DFSVisit(struct Grafo *grafo, int vertice) {
+	// Ponteiro que aponta pro primeiro nó vizinho da lista do vértice "vertice"
+	struct Node *atual = grafo->listaAdjacente[vertice];
+
+	// Marcando o vértice como visitado
+	grafo->listaAdjacente[vertice]->visitado = true;
+
+	// Espaço para realizar operações no vértice
+
+	// Percorrendo os vértices adjacentes
+	while (atual != NULL) {
+		int vizinho = atual->valor;
+
+		if (grafo->listaAdjacente[vizinho]->visitado != true) {
+			DFSVisit(grafo, vizinho);
+		}
+
+		atual = atual->proximo;
+	}
+}
 
 int main() {
     int T;
